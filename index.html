@@ -1,626 +1,365 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tiedemann Gruppe · Projektentwicklung Berlin</title>
-  <meta name="description" content="Die Tiedemann Gruppe entwickelt und realisiert hochwertige Wohnprojekte in Berlin – mit besonderem Anspruch an Qualität, Lage und Gestaltung.">
-  <style>
-    /* ─── TOKENS (Tiedemann Design System) ─── */
-    :root {
-      --primary:       #263b4b;
-      --primary-900:   #1c2e3b;
-      --primary-600:   #51626f;
-      --primary-400:   #7c8993;
-      --primary-200:   #b3bbc1;
-      --primary-100:   #dde1e4;
-      --secondary:     #2b2c37;
-      --accent:        #2f6b73;
-      --accent-dark:   #21525a;
-      --accent-tint:   #e1edee;
-      --on-accent:     #ffffff;
-      --surface-blue:  #d2dedc;
-      --surface-grey:  #e9e9e9;
-      --surface-subtle:#f4f7f7;
-      --surface:       #ffffff;
-      --text:          #3c4248;
-      --text-muted:    #6a7076;
-      --line:          #e4e8e8;
-      --font-sans:     'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
-      --space-1: 4px;  --space-2: 8px;  --space-3: 16px;
-      --space-4: 24px; --space-5: 40px; --space-6: 64px;
-      --radius-none: 0px;
-      --control-height: 44px;
-      --content-max: 1280px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tiedemann Gruppe · Projektentwicklung Berlin</title>
+<meta name="description" content="Die Tiedemann Gruppe plant, baut und revitalisiert Immobilien in Berlin. Aktuelle Projekte: Brunneneck in Berlin-Mitte und Lausitzer Quartier in Berlin-Kreuzberg.">
+<style>
+/* ===== Tokens · Tiedemann Design System ===== */
+:root{
+  --primary:#263b4b; --secondary:#2b2c37;
+  --accent:#2f6b73; --accent-tint:#e1edee;
+  --white:#ffffff; --subtle:#f4f7f7; --grey:#e9e9e9; --blue-grey:#d2dedc;
+  --text:#3c4248; --muted:#6a7076; --line:#e4e8e8;
+  --font:'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --s1:8px; --s2:16px; --s3:24px; --s4:32px; --s5:48px; --s6:64px; --s7:96px; --s8:128px;
+  --max:1280px; --gutter:16px; --ctl:44px; --bar:64px;
+}
+@media (min-width:768px){ :root{ --gutter:40px; } }
+@media (min-width:1200px){ :root{ --gutter:56px; } }
 
-    /* ─── RESET & BASE ─── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { font-family: var(--font-sans); font-size: 15px; line-height: 1.6; color: var(--text); background: var(--surface); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-    img { display: block; max-width: 100%; }
-    a { color: inherit; text-decoration: none; }
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; border-radius:0; }
+html{ scroll-behavior:smooth; scroll-padding-top:var(--bar); -webkit-text-size-adjust:100%; }
+body{ font-family:var(--font); font-size:15px; line-height:1.6; font-weight:400; color:var(--text); background:var(--white); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+body.no-scroll{ overflow:hidden; }
+img{ display:block; max-width:100%; height:auto; }
+a{ color:inherit; }
+ul,ol{ list-style:none; }
+button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
+em{ font-style:normal; font-weight:600; }
+address{ font-style:normal; }
+:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+.on-photo :focus-visible,.footer :focus-visible{ outline-color:var(--white); }
+.skip{ position:absolute; left:var(--s2); top:-80px; z-index:300; background:var(--white); color:var(--primary); padding:var(--s1) var(--s2); font-size:14px; font-weight:600; text-decoration:none; border:1px solid var(--primary); }
+.skip:focus{ top:var(--s2); }
+.sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
 
-    .wrap { max-width: var(--content-max); margin: 0 auto; padding: 0 var(--space-5); }
+.wrap{ width:100%; max-width:calc(var(--max) + 2 * var(--gutter)); margin:0 auto; padding:0 var(--gutter); }
+.section{ padding:var(--s7) 0; }
+@media (min-width:1024px){ .section{ padding:var(--s8) 0; } }
 
-    /* ─── TYPOGRAFIE: Wortpaar-Titel ─── */
-    .title-light   { font-weight: 300; color: var(--primary); }
-    .title-bold    { font-weight: 600; color: var(--primary); }
-    .title-on-dark { color: var(--surface); }
-    .label-overline {
-      font-size: 11px; font-weight: 600; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--accent);
-    }
-    .label-overline--light { color: rgba(255,255,255,.65); }
+/* ===== Typography ===== */
+.label{ display:block; font-size:11px; line-height:1.5; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+.display{ font-size:40px; line-height:1.05; font-weight:300; color:var(--primary); letter-spacing:-.015em; }
+.h1{ font-size:28px; line-height:1.2; font-weight:300; color:var(--primary); letter-spacing:-.01em; }
+.h2{ font-size:20px; line-height:1.3; font-weight:300; color:var(--primary); }
+@media (min-width:768px){ .display{ font-size:56px; } .h1{ font-size:34px; } }
+@media (min-width:1200px){ .display{ font-size:72px; } .h1{ font-size:40px; } }
+.lead{ font-size:17px; line-height:1.6; }
+.small{ font-size:13px; line-height:1.5; color:var(--muted); }
+p + p{ margin-top:var(--s2); }
 
-    /* ─── NAV ─── */
-    .site-header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      height: 64px;
-      background: var(--surface);
-      border-bottom: 1px solid var(--line);
-      display: flex; align-items: center;
-      transition: background .3s, box-shadow .3s;
-    }
-    .site-header.on-dark {
-      background: transparent;
-      border-bottom-color: transparent;
-    }
-    .site-header-inner {
-      max-width: var(--content-max); width: 100%;
-      margin: 0 auto; padding: 0 var(--space-5);
-      display: flex; align-items: center;
-    }
-    .site-logo { display: flex; align-items: center; }
-    .site-logo img { height: 40px; width: auto; }
-    .site-logo .logo-dark { display: block; }
-    .site-logo .logo-light { display: none; }
-    .site-header.on-dark .logo-dark { display: none; }
-    .site-header.on-dark .logo-light { display: block; }
+/* Links */
+.link{ display:inline-flex; align-items:center; gap:var(--s1); min-height:var(--ctl); font-size:14px; font-weight:600; color:var(--primary); text-decoration:none; }
+.link span{ border-bottom:1px solid var(--blue-grey); padding-bottom:2px; transition:border-color .2s; }
+.link:hover span{ border-bottom-color:var(--accent); }
+.arrow{ width:16px; height:10px; flex:none; transition:transform .2s; }
+.link:hover .arrow,.btn:hover .arrow{ transform:translateX(4px); }
+.btn{ display:inline-flex; align-items:center; justify-content:center; gap:var(--s1); min-height:48px; padding:0 var(--s3); font-size:14px; font-weight:600; line-height:1.2; text-decoration:none; border:1px solid transparent; transition:background-color .2s, color .2s, border-color .2s; }
+.btn--accent{ background:var(--accent); color:var(--white); }
+.btn--accent:hover{ background:#21525a; }
 
-    .site-nav {
-      margin-left: auto;
-      display: flex; align-items: center; gap: var(--space-5);
-      list-style: none;
-    }
-    .site-nav a {
-      font-size: 14px; font-weight: 400; color: var(--text);
-      padding-bottom: 4px;
-      transition: color .2s;
-    }
-    .site-header.on-dark .site-nav a { color: rgba(255,255,255,.8); }
-    .site-nav a:hover { color: var(--primary); }
-    .site-header.on-dark .site-nav a:hover { color: var(--surface); }
+/* ===== Header ===== */
+.hdr{ position:fixed; top:0; left:0; right:0; z-index:100; color:var(--white); transition:background-color .3s, color .3s, border-color .3s; border-bottom:1px solid transparent; }
+.hdr-in{ display:flex; align-items:center; justify-content:flex-end; gap:var(--s3); min-height:var(--bar); padding-top:var(--s3); transition:padding .3s; }
+.brand-text{ margin-right:auto; display:inline-flex; align-items:center; min-height:var(--ctl); font-size:17px; font-weight:300; letter-spacing:.01em; text-decoration:none; color:var(--primary); opacity:0; visibility:hidden; transition:opacity .3s, visibility .3s; }
+.nav{ display:flex; align-items:center; gap:var(--s4); }
+.nav a{ display:inline-flex; align-items:center; min-height:var(--ctl); font-size:14px; font-weight:400; text-decoration:none; border-bottom:1px solid transparent; transition:border-color .2s; }
+.nav a:hover,.nav a[aria-current="true"]{ border-bottom-color:currentColor; }
+.hdr{ pointer-events:none; }
+.hdr .menu-btn,.hdr .nav,.hdr.solid,.hdr.menu-open{ pointer-events:auto; }
+.hdr.solid{ background:var(--white); color:var(--primary); border-bottom-color:var(--line); }
+.hdr.solid .hdr-in{ padding-top:0; }
+.hdr.solid .brand-text{ opacity:1; visibility:visible; }
+.hdr.solid .nav a:hover{ border-bottom-color:var(--accent); }
+.menu-btn{ display:none; width:var(--ctl); height:var(--ctl); align-items:center; justify-content:center; }
+.menu-btn span{ display:block; width:22px; height:1px; background:currentColor; position:relative; }
+.menu-btn span::before,.menu-btn span::after{ content:""; position:absolute; left:0; width:22px; height:1px; background:currentColor; transition:transform .2s; }
+.menu-btn span::before{ top:-7px; } .menu-btn span::after{ top:7px; }
+.menu-btn[aria-expanded="true"] span{ background:transparent; }
+.menu-btn[aria-expanded="true"] span::before{ transform:translateY(7px) rotate(45deg); }
+.menu-btn[aria-expanded="true"] span::after{ transform:translateY(-7px) rotate(-45deg); }
+@media (max-width:899px){
+  .menu-btn{ display:inline-flex; }
+  .nav{ display:none; position:fixed; top:var(--bar); left:0; right:0; bottom:0; flex-direction:column; align-items:stretch; gap:0; background:var(--white); padding:var(--s3) var(--gutter); overflow-y:auto; }
+  .nav a{ min-height:64px; font-size:28px; font-weight:300; color:var(--primary); border-bottom:1px solid var(--line); }
+  .nav a:hover{ border-bottom-color:var(--line); color:var(--accent); }
+  .hdr.menu-open{ background:var(--white); color:var(--primary); border-bottom-color:var(--line); }
+  .hdr.menu-open .hdr-in{ padding-top:0; }
+  .hdr.menu-open .brand-text{ opacity:1; visibility:visible; }
+  .hdr.menu-open .nav{ display:flex; }
+}
 
-    .nav-cta {
-      display: inline-flex; align-items: center; justify-content: center;
-      height: var(--control-height); padding: 0 var(--space-4);
-      background: var(--primary); color: var(--surface) !important;
-      font-size: 14px; font-weight: 600;
-      border-radius: var(--radius-none);
-      transition: background .2s !important;
-    }
-    .nav-cta:hover { background: var(--primary-900) !important; }
+/* ===== Hero slider ===== */
+.hero{ position:relative; height:100vh; height:100svh; min-height:560px; max-height:1080px; overflow:hidden; background:var(--grey); color:var(--white); }
+.slides{ position:absolute; inset:0; }
+.slide{ position:absolute; inset:0; opacity:0; visibility:hidden; transition:opacity 1.2s ease, visibility 0s linear 1.2s; }
+.slide.is-active{ opacity:1; visibility:visible; transition:opacity 1.2s ease, visibility 0s; }
+.slide img{ width:100%; height:100%; object-fit:cover; transform:scale(1.04); transition:transform 7s ease-out; }
+.slide.is-active img{ transform:scale(1); }
+/* minimal legibility scrims */
+.hero::before,.hero::after{ content:""; position:absolute; left:0; right:0; z-index:1; pointer-events:none; }
+.hero::before{ top:0; height:200px; background:linear-gradient(rgba(20,24,28,.38), rgba(20,24,28,0)); }
+.hero::after{ bottom:0; height:70%; background:linear-gradient(rgba(20,24,28,0), rgba(20,24,28,.62)); }
+.hero-logo{ position:absolute; z-index:3; top:var(--s3); left:0; right:0; pointer-events:none; }
+.hero-logo a{ display:inline-block; pointer-events:auto; }
+.hero-logo img{ width:96px; height:108px; } /* Mindestgröße mit Wortmarke */
+.hero-content{ position:absolute; z-index:2; left:0; right:0; bottom:0; padding-bottom:var(--s4); }
+.hero-grid{ display:grid; gap:var(--s4); align-items:end; }
+.hero h1{ color:var(--white); max-width:13ch; }
+.hero-lead{ margin-top:var(--s2); font-size:17px; max-width:44ch; color:rgba(255,255,255,.88); }
+.hero-side{ display:grid; gap:var(--s2); }
+.cap{ min-height:64px; position:relative; }
+.cap-item{ position:absolute; inset:0 0 auto 0; opacity:0; visibility:hidden; transition:opacity .6s, visibility 0s linear .6s; }
+.cap-item.is-active{ position:relative; opacity:1; visibility:visible; transition:opacity .6s .3s, visibility 0s; }
+.cap-item a{ display:inline-flex; flex-direction:column; text-decoration:none; color:var(--white); padding:var(--s1) 0; }
+.cap-item .label{ color:rgba(255,255,255,.8); }
+.cap-item strong{ font-size:20px; line-height:1.3; font-weight:300; }
+.cap-item strong em{ font-weight:600; }
+.cap-item a:hover strong{ text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:4px; }
+.ctrl{ display:flex; align-items:center; gap:var(--s2); }
+.count{ font-size:13px; font-variant-numeric:tabular-nums; letter-spacing:.06em; min-width:56px; }
+.count b{ font-weight:600; }
+.progress{ flex:1; height:1px; background:rgba(255,255,255,.35); position:relative; min-width:80px; }
+.progress i{ position:absolute; left:0; top:-1px; height:3px; width:100%; background:var(--white); transform-origin:left; transform:scaleX(0); }
+.ctrl-btns{ display:flex; }
+.ctrl button{ width:var(--ctl); height:var(--ctl); display:inline-flex; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,.45); color:var(--white); transition:background-color .2s, border-color .2s; }
+.ctrl button + button{ border-left:0; }
+.ctrl button:hover{ background:rgba(255,255,255,.14); border-color:var(--white); }
+.ctrl svg{ width:16px; height:16px; }
+.icon-play{ display:none; }
+.is-paused .icon-play{ display:block; } .is-paused .icon-pause{ display:none; }
+@media (min-width:900px){
+  .hero-content{ padding-bottom:var(--s6); }
+  .hero-grid{ grid-template-columns:7fr 4fr; gap:var(--s6); }
+}
 
-    /* ─── HERO ─── */
-    .hero {
-      position: relative; height: 100svh; min-height: 600px;
-      overflow: hidden; background: var(--primary);
-    }
-    .hero-img {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%; object-fit: cover; object-position: center 25%;
-      opacity: .55;
-    }
-    .hero-content {
-      position: relative; height: 100%;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      max-width: var(--content-max); margin: 0 auto;
-      padding: 0 var(--space-5) var(--space-6);
-    }
-    .hero-eyebrow {
-      font-size: 11px; font-weight: 600; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--surface-blue);
-      margin-bottom: var(--space-4);
-    }
-    .hero-h1 {
-      font-size: clamp(32px, 5vw, 60px); line-height: 1.1; margin-bottom: var(--space-4);
-      color: var(--surface);
-    }
-    .hero-h1 .w-light { font-weight: 300; }
-    .hero-h1 .w-bold  { font-weight: 600; }
-    .hero-h1 .hero-newline { display: block; }
-    .hero-sub {
-      font-size: 15px; font-weight: 300; line-height: 1.65;
-      color: rgba(255,255,255,.7); max-width: 500px;
-      border-left: 4px solid var(--accent); padding-left: var(--space-4);
-    }
+/* ===== Intro ===== */
+.intro-grid{ display:grid; gap:var(--s5); }
+.intro-statement{ max-width:22ch; }
+.intro-body{ max-width:60ch; }
+.intro-body .lead{ color:var(--text); }
+.figures{ margin-top:var(--s5); display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid var(--line); }
+.figures div{ padding:var(--s3) var(--s2) 0 0; }
+.figures div + div{ padding-left:var(--s2); border-left:1px solid var(--line); }
+.figures dt{ font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:var(--s1); }
+.figures dd{ font-size:20px; line-height:1.3; font-weight:300; color:var(--primary); }
+@media (min-width:1024px){
+  .intro-grid{ grid-template-columns:repeat(12,1fr); gap:var(--s4); }
+  .intro-head{ grid-column:1 / span 6; }
+  .intro-body{ grid-column:8 / span 5; padding-top:var(--s1); }
+}
+@media (min-width:1024px){ .figures dd{ font-size:28px; } }
 
-    /* ─── STATEMENT ─── */
-    .statement {
-      padding: var(--space-6) 0;
-      border-bottom: 1px solid var(--line);
-    }
-    .statement-inner {
-      max-width: var(--content-max); margin: 0 auto;
-      padding: 0 var(--space-5);
-      display: grid; grid-template-columns: 220px 1fr; gap: var(--space-6);
-    }
-    .statement-side { padding-top: 4px; }
-    .statement-h2 {
-      font-size: clamp(22px, 2.8vw, 36px); line-height: 1.2;
-      margin-bottom: var(--space-4);
-    }
-    .statement-body p {
-      font-size: 15px; line-height: 1.7; color: var(--text);
-      max-width: 60ch;
-    }
+/* ===== Section heads ===== */
+.sec-head{ display:grid; gap:var(--s2); margin-bottom:var(--s6); padding-top:var(--s3); border-top:1px solid var(--line); }
+@media (min-width:900px){ .sec-head{ grid-template-columns:1fr 1fr; align-items:end; gap:var(--s4); } .sec-head .lead{ justify-self:end; max-width:46ch; } }
+.sec-head .label{ margin-bottom:var(--s2); }
+.sec-head .lead{ color:var(--muted); }
 
-    /* ─── FULLBLEED ─── */
-    .fullbleed-wrap { overflow: hidden; }
-    .fullbleed-wrap img { width: 100%; aspect-ratio: 21/8; object-fit: cover; display: block; }
+/* ===== Current projects ===== */
+.feature{ display:grid; gap:var(--s4); }
+.feature + .feature{ margin-top:var(--s8); }
+.feature-media{ position:relative; display:block; overflow:hidden; background:var(--grey); }
+.feature-media img{ width:100%; aspect-ratio:3/2; object-fit:cover; transition:transform .8s ease; }
+.feature-media:hover img{ transform:scale(1.02); }
+.feature-media .tag{ position:absolute; left:0; top:0; background:var(--white); color:var(--primary); font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; padding:var(--s1) var(--s2); }
+.feature-text .label{ margin-bottom:var(--s2); }
+.feature-text .h1{ margin-bottom:var(--s1); }
+.addr{ font-size:13px; color:var(--muted); }
+.feature-text > p.desc{ margin-top:var(--s3); }
+.kv{ margin-top:var(--s3); border-top:1px solid var(--line); }
+.kv div{ display:grid; grid-template-columns:120px 1fr; gap:var(--s2); padding:12px 0; border-bottom:1px solid var(--line); }
+.kv dt{ font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); padding-top:3px; }
+.kv dd{ font-size:15px; color:var(--text); }
+.kv dd em{ color:var(--primary); }
+.links{ margin-top:var(--s3); display:flex; flex-wrap:wrap; column-gap:var(--s3); }
+.gallery{ display:grid; gap:var(--s1); grid-template-columns:repeat(2,1fr); }
+.gallery--3{ grid-template-columns:repeat(3,1fr); }
+.g-item{ display:block; width:100%; overflow:hidden; background:var(--grey); position:relative; }
+.g-item img{ width:100%; aspect-ratio:4/3; object-fit:cover; transition:transform .6s ease, opacity .3s; }
+.gallery--3 .g-item img{ aspect-ratio:4/5; }
+.g-item:hover img{ transform:scale(1.03); }
+.gallery-cap{ grid-column:1 / -1; font-size:13px; color:var(--muted); padding-top:var(--s1); }
+@media (min-width:768px){ .gallery{ grid-template-columns:repeat(4,1fr); gap:var(--s2); } .gallery--3{ grid-template-columns:repeat(3,1fr); } }
+@media (min-width:1024px){
+  .feature{ grid-template-columns:repeat(12,1fr); gap:var(--s5) var(--s4); align-items:start; }
+  .feature-media{ grid-column:1 / span 7; }
+  .feature-text{ grid-column:9 / span 4; }
+  .feature .gallery{ grid-column:1 / -1; }
+  .feature--rev .feature-media{ grid-column:6 / span 7; grid-row:1; }
+  .feature--rev .feature-text{ grid-column:1 / span 4; grid-row:1; }
+  .feature--rev .gallery{ grid-column:6 / span 7; }
+}
 
-    /* ─── PROJEKTE ─── */
-    #projekte { background: var(--primary); }
-    .projekte-head {
-      max-width: var(--content-max); margin: 0 auto;
-      padding: var(--space-6) var(--space-5) var(--space-5);
-      display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-4);
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
-    .projekte-head h2 { color: var(--surface); font-size: clamp(20px, 2.5vw, 32px); line-height: 1.2; }
-    .projekte-head h2 .w-light { font-weight: 300; }
-    .projekte-head h2 .w-bold  { font-weight: 600; }
+/* ===== Full-bleed band ===== */
+.band{ position:relative; height:56vh; min-height:320px; max-height:720px; overflow:hidden; background:var(--grey); }
+.band img{ width:100%; height:100%; object-fit:cover; object-position:50% 40%; }
+.band figcaption{ position:absolute; right:0; bottom:0; background:var(--white); color:var(--muted); font-size:13px; padding:var(--s1) var(--s2); }
 
-    /* Project strip */
-    .projekt-strip {
-      max-width: var(--content-max); margin: 0 auto;
-      display: grid; grid-template-columns: 1fr 1fr;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
-    .projekt-strip--reversed { }
-    .projekt-img-col { overflow: hidden; }
-    .projekt-img-col img {
-      width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block;
-      transition: transform 1.4s cubic-bezier(.25,.46,.45,.94);
-    }
-    .projekt-strip:hover .projekt-img-col img { transform: scale(1.04); }
-    .projekt-strip--reversed .projekt-img-col { order: 2; }
+/* ===== References ===== */
+.refs{ background:var(--subtle); }
+.ref-grid{ display:grid; gap:var(--s5) var(--s3); }
+@media (min-width:640px){ .ref-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (min-width:1024px){ .ref-grid{ grid-template-columns:repeat(3,1fr); gap:var(--s4); } }
+.ref .g-item img{ aspect-ratio:4/3; }
+.ref-meta{ display:flex; justify-content:space-between; gap:var(--s2); padding:var(--s2) 0 var(--s1); margin-top:var(--s2); border-top:1px solid var(--blue-grey); }
+.ref-meta .label{ color:var(--muted); }
+.ref-meta .label.year{ color:var(--accent); }
+.ref h3{ margin-bottom:var(--s1); }
+.ref p{ font-size:15px; max-width:40ch; }
+.ref .credit{ display:block; margin-top:var(--s1); font-size:13px; color:var(--muted); }
+/* project index */
+.index{ margin-top:var(--s7); }
+.index h3{ margin-bottom:var(--s3); }
+.index-table{ width:100%; border-collapse:collapse; font-size:15px; }
+.index-table th,.index-table td{ text-align:left; padding:var(--s2) var(--s2) var(--s2) 0; border-top:1px solid var(--blue-grey); vertical-align:baseline; }
+.index-table thead th{ font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); border-top:0; padding-top:0; }
+.index-table tbody tr:last-child > *{ border-bottom:1px solid var(--blue-grey); }
+.index-table .yr{ width:96px; font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap; }
+.index-table .yr.now{ color:var(--accent); font-weight:600; font-size:11px; letter-spacing:.14em; text-transform:uppercase; }
+.index-table tbody th{ font-weight:600; color:var(--primary); }
+.index-table tbody th a{ text-decoration:none; border-bottom:1px solid var(--blue-grey); }
+.index-table tbody th a:hover{ border-bottom-color:var(--accent); }
+.index-table td.sm{ color:var(--muted); }
+@media (max-width:639px){ .index-table .hide-s{ display:none; } .index-table .yr{ width:72px; } }
 
-    .projekt-info-col {
-      padding: var(--space-6) var(--space-6);
-      display: flex; flex-direction: column; justify-content: center;
-    }
-    .projekt-nr {
-      font-size: 11px; font-weight: 600; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--accent);
-      margin-bottom: var(--space-4);
-      display: flex; align-items: center; gap: var(--space-4);
-    }
-    .projekt-nr::after {
-      content: ''; display: block; height: 1px; width: 32px;
-      background: var(--accent); flex-shrink: 0;
-    }
-    .projekt-h3 {
-      font-size: clamp(24px, 3vw, 44px); line-height: 1.0; letter-spacing: -.01em;
-      color: var(--surface); margin-bottom: var(--space-2);
-    }
-    .projekt-h3 .w-light { font-weight: 300; }
-    .projekt-h3 .w-bold  { font-weight: 600; }
-    .projekt-ort {
-      font-size: 13px; color: var(--primary-200);
-      margin-bottom: var(--space-5);
-    }
-    .projekt-tags { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-5); }
-    .ptag {
-      display: inline-flex; align-items: center; height: 28px; padding: 0 12px;
-      font-size: 12px; font-weight: 600;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
-      color: rgba(255,255,255,.55);
-    }
-    .ptag--active { background: var(--accent-tint); color: var(--accent-dark); box-shadow: none; }
-    .projekt-desc {
-      font-size: 14px; line-height: 1.7; color: rgba(255,255,255,.55);
-      max-width: 44ch; margin-bottom: var(--space-5);
-    }
-    .tie-link--arrow {
-      display: inline-flex; align-items: center; gap: var(--space-2);
-      font-size: 14px; font-weight: 600; color: var(--accent);
-      transition: color .2s;
-    }
-    .tie-link--arrow:hover { color: rgba(209,224,222,.9); }
-    .tie-link--arrow svg { transition: transform .2s; }
-    .tie-link--arrow:hover svg { transform: translateX(4px); }
+/* ===== About ===== */
+.about-grid{ display:grid; gap:var(--s5); }
+.about-fig img{ width:100%; aspect-ratio:4/5; object-fit:cover; object-position:50% 60%; background:var(--grey); }
+.about-fig figcaption,.cap-note{ font-size:13px; color:var(--muted); padding-top:var(--s1); }
+.about-text .h1{ margin:var(--s2) 0 var(--s5); max-width:16ch; }
+.pillars{ display:grid; gap:var(--s5); }
+.pillar{ border-top:1px solid var(--line); padding-top:var(--s3); }
+.pillar .num{ display:block; font-size:11px; font-weight:600; letter-spacing:.14em; color:var(--accent); margin-bottom:var(--s2); }
+.pillar h3{ margin-bottom:var(--s1); }
+@media (min-width:768px){ .pillars{ grid-template-columns:1fr 1fr; gap:var(--s5) var(--s4); } }
+@media (min-width:1024px){
+  .about-grid{ grid-template-columns:repeat(12,1fr); gap:var(--s4); align-items:start; }
+  .about-fig{ grid-column:1 / span 4; position:sticky; top:calc(var(--bar) + var(--s4)); }
+  .about-text{ grid-column:6 / span 7; }
+}
 
-    /* ─── PORTFOLIO ─── */
-    #portfolio {
-      padding: var(--space-6) 0;
-      background: var(--surface);
-    }
-    .portfolio-head {
-      max-width: var(--content-max); margin: 0 auto;
-      padding: 0 var(--space-5) var(--space-5);
-    }
-    .portfolio-head h2 { font-size: clamp(22px, 2.5vw, 32px); line-height: 1.2; }
+/* ===== Contact ===== */
+.contact{ background:var(--subtle); border-top:1px solid var(--line); }
+.contact-grid{ display:grid; gap:var(--s5); }
+.contact-head .h1{ margin:var(--s2) 0 var(--s3); }
+.contact-head .lead{ max-width:46ch; }
+.contact-head .btn{ margin-top:var(--s4); }
+.contact-list{ display:grid; gap:0; border-top:1px solid var(--blue-grey); }
+.contact-list > div{ display:grid; gap:var(--s1); padding:var(--s3) 0; border-bottom:1px solid var(--blue-grey); }
+.contact-list dt{ font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+.contact-list dd{ font-size:17px; color:var(--primary); font-weight:300; }
+.contact-list dd a{ display:inline-flex; align-items:center; min-height:var(--ctl); text-decoration:none; border-bottom:1px solid transparent; margin-right:var(--s3); }
+.contact-list dd a:hover{ border-bottom-color:var(--accent); }
+@media (min-width:640px){ .contact-list > div{ grid-template-columns:160px 1fr; gap:var(--s3); align-items:baseline; } }
+@media (min-width:1024px){ .contact-grid{ grid-template-columns:repeat(12,1fr); gap:var(--s4); } .contact-head{ grid-column:1 / span 5; } .contact-list{ grid-column:7 / span 6; } }
 
-    .portfolio-grid {
-      max-width: var(--content-max); margin: 0 auto;
-      padding: 0 var(--space-5);
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
-    }
-    .portfolio-item { position: relative; overflow: hidden; }
-    .portfolio-item img {
-      width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block;
-      transition: transform 1.2s cubic-bezier(.25,.46,.45,.94);
-    }
-    .portfolio-item:hover img { transform: scale(1.06); }
-    .portfolio-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(38,59,75,.88) 0%, rgba(38,59,75,.0) 55%);
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: var(--space-4);
-    }
-    .portfolio-year {
-      font-size: 11px; font-weight: 600; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--surface-blue);
-      margin-bottom: var(--space-1);
-    }
-    .portfolio-name {
-      font-size: 18px; line-height: 1.2;
-      color: var(--surface);
-    }
-    .portfolio-name .w-light { font-weight: 300; }
-    .portfolio-name .w-bold  { font-weight: 600; }
-    .portfolio-ort { font-size: 13px; color: var(--primary-200); margin-top: 2px; }
+/* ===== Footer ===== */
+.footer{ background:var(--secondary); color:#b9bec4; padding:var(--s7) 0 var(--s4); font-size:13px; }
+.footer-grid{ display:grid; gap:var(--s5); }
+@media (min-width:768px){ .footer-grid{ grid-template-columns:2fr 1fr 1fr 1fr; gap:var(--s4); } }
+.footer-logo img{ width:96px; height:108px; }
+.footer-claim{ margin-top:var(--s3); max-width:30ch; }
+.footer h2{ font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--white); margin-bottom:var(--s2); }
+.footer a{ color:#b9bec4; text-decoration:none; transition:color .2s; }
+.footer a:hover{ color:var(--white); }
+.footer li a,.footer address a{ display:inline-flex; align-items:center; min-height:var(--ctl); }
+.footer address{ line-height:1.6; }
+.social{ display:flex; gap:var(--s1); }
+.social a{ width:var(--ctl); height:var(--ctl); justify-content:center; border:1px solid rgba(255,255,255,.2); }
+.social a:hover{ border-color:var(--white); }
+.social svg{ width:16px; height:16px; fill:currentColor; }
+.footer-bottom{ margin-top:var(--s6); padding-top:var(--s3); border-top:1px solid rgba(255,255,255,.14); display:flex; flex-wrap:wrap; justify-content:space-between; gap:var(--s2); align-items:center; }
 
-    /* ─── ÜBER UNS ─── */
-    #ueber {
-      background: var(--surface-grey);
-      padding: var(--space-6) 0;
-    }
-    .ueber-inner {
-      max-width: var(--content-max); margin: 0 auto;
-      padding: 0 var(--space-5);
-      display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6);
-      align-items: start;
-    }
-    .ueber-img-wrap { position: relative; }
-    .ueber-img-wrap img { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; }
-    .ueber-img-caption {
-      padding-top: var(--space-2);
-      font-size: 12px; color: var(--text-muted); font-style: italic;
-    }
-    .ueber-text { padding-top: var(--space-4); }
-    .ueber-text h2 { font-size: clamp(22px, 2.5vw, 32px); line-height: 1.2; margin-bottom: var(--space-4); }
-    .ueber-text p { font-size: 15px; line-height: 1.7; color: var(--text); margin-bottom: var(--space-3); }
+/* ===== Lightbox ===== */
+.lb{ position:fixed; inset:0; width:100%; height:100%; max-width:none; max-height:none; border:0; padding:0; background:rgba(255,255,255,.98); color:var(--primary); }
+.lb::backdrop{ background:rgba(255,255,255,.9); }
+.lb[open]{ display:grid; grid-template-rows:var(--bar) 1fr auto; }
+.lb-top{ display:flex; align-items:center; justify-content:space-between; padding:0 var(--gutter); border-bottom:1px solid var(--line); }
+.lb-count{ font-size:13px; font-variant-numeric:tabular-nums; letter-spacing:.06em; color:var(--muted); }
+.lb-stage{ position:relative; display:flex; align-items:center; justify-content:center; padding:var(--s3) var(--gutter); min-height:0; }
+.lb-stage img{ max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; }
+.lb-bottom{ display:flex; align-items:center; justify-content:space-between; gap:var(--s2); padding:var(--s2) var(--gutter) var(--s3); }
+.lb-cap{ font-size:13px; color:var(--text); }
+.lb-btns{ display:flex; flex:none; }
+.lb button{ width:var(--ctl); height:var(--ctl); display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--line); color:var(--primary); }
+.lb-btns button + button{ border-left:0; }
+.lb button:hover{ border-color:var(--primary); }
+.lb svg{ width:16px; height:16px; }
 
-    .addr-grid {
-      margin-top: var(--space-5); padding-top: var(--space-5);
-      border-top: 1px solid var(--line);
-      display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);
-    }
-    .addr-label {
-      font-size: 11px; font-weight: 600; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--text-muted);
-      margin-bottom: var(--space-2);
-    }
-    .addr-val { font-size: 14px; line-height: 1.65; }
-    .addr-val a { color: var(--accent); }
-    .addr-val a:hover { text-decoration: underline; }
-
-    /* ─── STAT BAR ─── */
-    .stat-bar {
-      background: var(--primary);
-      padding: var(--space-5) 0;
-      border-top: 1px solid rgba(255,255,255,.08);
-    }
-    .stat-bar-inner {
-      max-width: var(--content-max); margin: 0 auto;
-      padding: 0 var(--space-5);
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 1px; background: rgba(255,255,255,.08);
-    }
-    .stat-cell {
-      background: var(--primary);
-      padding: var(--space-5) var(--space-4);
-    }
-    .stat-label {
-      font-size: 11px; font-weight: 600; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--primary-200);
-      margin-bottom: var(--space-2);
-    }
-    .stat-value {
-      font-size: 36px; font-weight: 300; line-height: 1.1; color: var(--surface);
-    }
-    .stat-unit { font-size: 15px; font-weight: 300; color: var(--primary-200); }
-
-    /* ─── KONTAKT BAND ─── */
-    #kontakt {
-      position: relative; overflow: hidden;
-      background: var(--secondary);
-      padding: var(--space-6) 0;
-    }
-    #kontakt .kontakt-bg {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%; object-fit: cover;
-      opacity: .18;
-    }
-    .kontakt-inner {
-      position: relative;
-      max-width: var(--content-max); margin: 0 auto;
-      padding: 0 var(--space-5);
-      display: flex; align-items: center; justify-content: space-between;
-      gap: var(--space-5); flex-wrap: wrap;
-    }
-    .kontakt-text h2 { font-size: clamp(22px, 2.5vw, 32px); line-height: 1.2; color: var(--surface); margin-bottom: var(--space-2); }
-    .kontakt-text p { font-size: 15px; color: var(--primary-200); }
-    .kontakt-actions { display: flex; gap: var(--space-3); flex-wrap: wrap; }
-    .tie-btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      height: var(--control-height); padding: 0 var(--space-4);
-      border: 0; border-radius: var(--radius-none);
-      font: 600 14px/1 var(--font-sans); cursor: pointer;
-      text-decoration: none; white-space: nowrap;
-      background: var(--primary); color: var(--surface);
-      transition: background .2s;
-    }
-    .tie-btn:hover { background: var(--primary-900); }
-    .tie-btn--accent { background: var(--accent); color: var(--on-accent); }
-    .tie-btn--accent:hover { background: var(--accent-dark); }
-    .tie-btn--on-dark {
-      background: transparent; color: var(--surface);
-      box-shadow: inset 0 0 0 1px var(--primary-200);
-    }
-    .tie-btn--on-dark:hover { background: rgba(255,255,255,.08); }
-
-    /* ─── FOOTER ─── */
-    footer {
-      background: var(--secondary); color: var(--primary-200);
-      border-top: 1px solid rgba(255,255,255,.08);
-      padding: var(--space-5) 0;
-    }
-    .footer-inner {
-      max-width: var(--content-max); margin: 0 auto;
-      padding: 0 var(--space-5);
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: var(--space-4);
-    }
-    .footer-logo img { height: 32px; width: auto; }
-    .footer-links { display: flex; gap: var(--space-5); list-style: none; flex-wrap: wrap; }
-    .footer-links a {
-      font-size: 13px; color: var(--primary-200);
-      transition: color .2s;
-    }
-    .footer-links a:hover { color: var(--surface); }
-    .footer-social { display: flex; gap: var(--space-2); }
-    .footer-social a {
-      width: 36px; height: 36px;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
-      transition: box-shadow .2s, background .2s;
-    }
-    .footer-social a:hover { box-shadow: inset 0 0 0 1px var(--accent); background: rgba(47,107,115,.15); }
-    .footer-social svg { width: 15px; height: 15px; fill: var(--primary-200); }
-    .footer-copy { font-size: 12px; color: var(--primary-400); }
-
-    /* ─── FADE IN ─── */
-    .fi { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
-    .fi.d1 { transition-delay: .1s; }
-    .fi.d2 { transition-delay: .2s; }
-    .fi.visible { opacity: 1; transform: none; }
-
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 900px) {
-      .site-header-inner { padding: 0 var(--space-4); }
-      .site-nav li:not(.nav-cta-li) { display: none; }
-      .wrap, .statement-inner, .ueber-inner, .kontakt-inner,
-      .projekte-head, .portfolio-head, .portfolio-grid,
-      .stat-bar-inner { padding-left: var(--space-4); padding-right: var(--space-4); }
-      .statement-inner { grid-template-columns: 1fr; gap: var(--space-3); }
-      .projekt-strip { grid-template-columns: 1fr; }
-      .projekt-strip--reversed .projekt-img-col { order: 0; }
-      .projekt-info-col { padding: var(--space-5) var(--space-4); }
-      .portfolio-grid { grid-template-columns: 1fr 1fr; }
-      .ueber-inner { grid-template-columns: 1fr; }
-      .ueber-img-wrap img { aspect-ratio: 16/9; }
-      .stat-bar-inner { grid-template-columns: 1fr 1fr; }
-      .hero-content { padding-left: var(--space-4); padding-right: var(--space-4); }
-    }
-  </style>
+/* ===== Reveal ===== */
+.js .reveal{ opacity:0; transform:translateY(24px); transition:opacity .8s ease, transform .8s ease; }
+.js .reveal.is-in{ opacity:1; transform:none; }
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{ transition:none !important; animation:none !important; }
+  .slide img{ transform:none; }
+  .js .reveal{ opacity:1; transform:none; }
+}
+</style>
 </head>
 <body>
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
 
-<!-- HEADER -->
-<header class="site-header on-dark" id="siteHeader">
-  <div class="site-header-inner">
-    <a class="site-logo" href="#start">
-      <img class="logo-dark" src="assets/logos/logo-positiv.svg" alt="Tiedemann">
-      <img class="logo-light" src="assets/logos/logo-weiss.svg" alt="Tiedemann">
-    </a>
-    <ul class="site-nav">
-      <li><a href="#projekte">Projekte</a></li>
-      <li><a href="#portfolio">Portfolio</a></li>
-      <li><a href="#ueber">Über uns</a></li>
-      <li class="nav-cta-li"><a href="mailto:info@tiedemann-gruppe.de" class="nav-cta">Kontakt</a></li>
-    </ul>
+<header class="hdr" id="hdr">
+  <div class="wrap hdr-in">
+    <a class="brand-text" href="#start" tabindex="-1" aria-hidden="true">Tiedemann&nbsp;<em>Gruppe</em></a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menü öffnen"><span></span></button>
+    <nav class="nav" id="nav" aria-label="Hauptnavigation">
+      <a href="#projekte">Projekte</a>
+      <a href="#referenzen">Referenzen</a>
+      <a href="#ueber-uns">Über uns</a>
+      <a href="#kontakt">Kontakt</a>
+      <a href="https://www.tiedemann-gruppe.de/jobs">Jobs</a>
+    </nav>
   </div>
 </header>
 
-<!-- HERO -->
-<section class="hero" id="start">
-  <img class="hero-img" src="Home _ Tie Gruppe_files/84df70_d4bb7d095dd146b08986e99c363a593e~mv2.jpg" alt="">
+<main id="inhalt">
+
+<!-- ===== Hero ===== -->
+<section class="hero on-photo" id="start" aria-roledescription="Karussell" aria-label="Projekte der Tiedemann Gruppe">
+  <div class="slides" id="slides" aria-live="off">
+    <div class="slide is-active" role="group" aria-roledescription="Bild" aria-label="1 von 4">
+      <img src="assets/projekte/brunneneck-strasse.jpg" width="2000" height="1239" style="object-position:62% 50%" fetchpriority="high" alt="Visualisierung des Eckhauses Brunnenstraße 146 mit sanierter Gründerzeitfassade">
+    </div>
+    <div class="slide" role="group" aria-roledescription="Bild" aria-label="2 von 4">
+      <img src="Home%20_%20Tie%20Gruppe_files/84df70_d4bb7d095dd146b08986e99c363a593e~mv2.jpg" width="1728" height="1333" style="object-position:50% 60%" alt="Sanierte Altbauwohnung mit Erkerfenster, hellem Parkett und Sofa">
+    </div>
+    <div class="slide" role="group" aria-roledescription="Bild" aria-label="3 von 4">
+      <img src="assets/projekte/brunneneck-ausblick-fernseh.jpg" width="1920" height="1279" style="object-position:62% 45%" alt="Blick vom Dachgeschoss über die Ziegeldächer von Berlin-Mitte zum Fernsehturm">
+    </div>
+    <div class="slide" role="group" aria-roledescription="Bild" aria-label="4 von 4">
+      <img src="assets/projekte/loschmidtstrasse-16.jpg" width="2000" height="2000" style="object-position:55% 32%" alt="Neubau Loschmidtstraße 16 mit hellem Putz und Balkonen zwischen Straßenbäumen">
+    </div>
+  </div>
+
+  <div class="hero-logo">
+    <div class="wrap"><a href="#start" aria-label="Tiedemann Gruppe, Startseite"><img src="assets/logos/logo-weiss.svg" alt="Tiedemann Gruppe" width="96" height="108"></a></div>
+  </div>
+
   <div class="hero-content">
-    <div class="hero-eyebrow">Tiedemann Gruppe · Berlin</div>
-    <h1 class="hero-h1">
-      <span class="hero-newline"><span class="w-light">Planen.</span></span>
-      <span class="hero-newline"><span class="w-bold">Bauen.</span></span>
-      <span class="hero-newline"><span class="w-light">Wohnen.</span></span>
-    </h1>
-    <p class="hero-sub">Wir entwickeln und realisieren hochwertige Wohnprojekte in Berlin – mit besonderem Anspruch an Qualität, Lage und Gestaltung.</p>
-  </div>
-</section>
-
-<!-- STATEMENT -->
-<div class="statement fi">
-  <div class="statement-inner">
-    <div class="statement-side">
-      <span class="label-overline">Über uns</span>
-    </div>
-    <div class="statement-body">
-      <h2 class="statement-h2">
-        <span class="title-light">Expertise für </span><span class="title-bold">Planung, Neubau</span>
-        <br><span class="title-light">und </span><span class="title-bold">Revitalisierung.</span>
-      </h2>
-      <p>Die Tiedemann Gruppe ist Experte für Planung, Neubau und Revitalisierung von Immobilien. Wir entwickeln und realisieren hochwertige Immobilienprojekte mit einem besonderen Anspruch an Qualität. Aus Innovationsgeist und Expertise entstehen unsere pragmatischen und modernen Lösungen für die Zukunft. In Berlin finden wir die tägliche Inspiration, um unsere Ideen gemeinsam mit unseren Kooperationspartnern umzusetzen.</p>
-    </div>
-  </div>
-</div>
-
-<!-- FULLBLEED -->
-<div class="fullbleed-wrap">
-  <img src="Home _ Tie Gruppe_files/84df70_b7c053f0ed0c4be09d17335ae86f9eb3~mv2.jpg" alt="Fertiggestellte Wohnung, Berlin">
-</div>
-
-<!-- PROJEKTE -->
-<section id="projekte">
-  <div class="projekte-head fi">
-    <h2>Aktuelle <span class="w-light">Projekte</span></h2>
-    <span class="label-overline--light" style="font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(179,187,193,.6)">In Entwicklung</span>
-  </div>
-
-  <!-- Brunneneck -->
-  <div class="projekt-strip fi">
-    <div class="projekt-img-col">
-      <img src="Home _ Tie Gruppe_files/84df70_b7c053f0ed0c4be09d17335ae86f9eb3~mv2.jpg" alt="Brunneneck – Penthouse, Berlin Mitte">
-    </div>
-    <div class="projekt-info-col">
-      <div class="projekt-nr">01 · Berlin Mitte</div>
-      <h3 class="projekt-h3">
-        <span class="w-bold">BRUNNEN·ECK</span><br>
-        <span class="w-light">Penthouse</span>
-      </h3>
-      <div class="projekt-ort">Rheinsberger Straße · 10115 Berlin</div>
-      <div class="projekt-tags">
-        <span class="ptag ptag--active">Rohbau jetzt</span>
-        <span class="ptag">2 Einheiten</span>
-        <span class="ptag">ab 121 m²</span>
-        <span class="ptag">Penthouse</span>
+    <div class="wrap hero-grid">
+      <div>
+        <h1 class="display">Planung, Neubau und <em>Revitalisierung</em></h1>
+        <p class="hero-lead">Wir entwickeln und realisieren Immobilienprojekte in Berlin – mit besonderem Anspruch an Qualität.</p>
       </div>
-      <p class="projekt-desc">Zwei großzügige Penthousewohnungen im Dachgeschoss eines gründerzeitlichen Altbaus in Berlins Mitte. Raumkonzepte von Nora Witzigmann und Studio Fabian Freytag – jetzt im Rohbau verfügbar.</p>
-      <a class="tie-link--arrow" href="../Brunneneck/index.html">
-        Zur Projektseite
-        <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><path d="M11 1L15 5L11 9M1 5H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </div>
-  </div>
-
-  <!-- Lausitzer -->
-  <div class="projekt-strip projekt-strip--reversed fi d1">
-    <div class="projekt-img-col">
-      <img src="Home _ Tie Gruppe_files/84df70_cb92b71d360048dbb8c93766ba165b0d~mv2.jpg" alt="Lausitzer Quartier – Berlin Kreuzberg">
-    </div>
-    <div class="projekt-info-col">
-      <div class="projekt-nr">02 · Berlin Kreuzberg</div>
-      <h3 class="projekt-h3">
-        <span class="w-bold">LAUSITZER</span><br>
-        <span class="w-light">Quartier</span>
-      </h3>
-      <div class="projekt-ort">Lausitzer Platz · 10997 Berlin</div>
-      <div class="projekt-tags">
-        <span class="ptag ptag--active" style="background:var(--status-available-bg);color:var(--status-available)">Fertiggestellt</span>
-        <span class="ptag">35 Wohneinheiten</span>
-        <span class="ptag">Neubau</span>
-      </div>
-      <p class="projekt-desc">35 Wohneinheiten am Lausitzer Platz in Kreuzberg – ein modernes Wohnquartier mit hochwertiger Ausstattung, Fahrstuhl und begrüntem Innenhof in einer der lebendigsten Lagen Berlins.</p>
-      <a class="tie-link--arrow" href="../Lausitzer/fabrik.html">
-        Zur Projektseite
-        <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><path d="M11 1L15 5L11 9M1 5H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- STAT BAR -->
-<div class="stat-bar">
-  <div class="stat-bar-inner">
-    <div class="stat-cell fi">
-      <div class="stat-label">Realisierte Projekte</div>
-      <div class="stat-value">12 <span class="stat-unit">+</span></div>
-    </div>
-    <div class="stat-cell fi d1">
-      <div class="stat-label">Wohneinheiten gesamt</div>
-      <div class="stat-value">150 <span class="stat-unit">+</span></div>
-    </div>
-    <div class="stat-cell fi d1">
-      <div class="stat-label">Jahre Berlin</div>
-      <div class="stat-value">15 <span class="stat-unit">+</span></div>
-    </div>
-    <div class="stat-cell fi d2">
-      <div class="stat-label">Wohnfläche</div>
-      <div class="stat-value">12.000 <span class="stat-unit">m²</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- PORTFOLIO -->
-<section id="portfolio">
-  <div class="portfolio-head fi">
-    <span class="label-overline" style="display:block;margin-bottom:var(--space-2)">Vergangene Projekte</span>
-    <h2>Was wir <span class="title-light">realisiert</span> <span class="title-bold">haben.</span></h2>
-  </div>
-  <div class="portfolio-grid fi">
-    <div class="portfolio-item">
-      <img src="Home _ Tie Gruppe_files/84df70_d4bb7d095dd146b08986e99c363a593e~mv2.jpg" alt="">
-      <div class="portfolio-overlay">
-        <div class="portfolio-year">2022</div>
-        <div class="portfolio-name"><span class="w-bold">Erkerwohnung</span></div>
-        <div class="portfolio-ort">Prenzlauer Berg · Berlin</div>
-      </div>
-    </div>
-    <div class="portfolio-item">
-      <img src="Home _ Tie Gruppe_files/84df70_cb92b71d360048dbb8c93766ba165b0d~mv2.jpg" alt="">
-      <div class="portfolio-overlay">
-        <div class="portfolio-year">2021</div>
-        <div class="portfolio-name"><span class="w-bold">Revitalisierung</span></div>
-        <div class="portfolio-ort">Mitte · Berlin</div>
-      </div>
-    </div>
-    <div class="portfolio-item">
-      <img src="Home _ Tie Gruppe_files/84df70_b7c053f0ed0c4be09d17335ae86f9eb3~mv2.jpg" alt="">
-      <div class="portfolio-overlay">
-        <div class="portfolio-year">2020</div>
-        <div class="portfolio-name"><span class="w-bold">Apartmenthaus</span></div>
-        <div class="portfolio-ort">Friedrichshain · Berlin</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ÜBER UNS -->
-<section id="ueber">
-  <div class="ueber-inner">
-    <div class="ueber-img-wrap fi">
-      <img src="Home _ Tie Gruppe_files/84df70_cb92b71d360048dbb8c93766ba165b0d~mv2.jpg" alt="">
-      <p class="ueber-img-caption">Büro Berlin · Große Hamburger Str. 32</p>
-    </div>
-    <div class="ueber-text fi d1">
-      <span class="label-overline" style="display:block;margin-bottom:var(--space-4)">Über uns</span>
-      <h2>
-        <span class="title-light">Berliner Immobilien.</span><br>
-        <span class="title-bold">Mit Haltung.</span>
-      </h2>
-      <p>Die Tiedemann Gruppe entwickelt und realisiert Wohnprojekte in etablierten Berliner Lagen seit über 15 Jahren. Unser Fokus liegt auf Bestands&shy;gebäuden mit Geschichte – Altbauten, die wir mit zeitgemäßem Anspruch weiterentwickeln.</p>
-      <p>Wir begleiten jedes Projekt von der ersten Idee bis zur Übergabe – persönlich, verantwortlich, langfristig.</p>
-      <div class="addr-grid">
-        <div>
-          <div class="addr-label">Adresse</div>
-          <div class="addr-val">Große Hamburger Str. 32<br>10115 Berlin</div>
+      <div class="hero-side">
+        <div class="cap" aria-live="polite">
+          <div class="cap-item is-active"><a href="../brunneneck/index.html"><span class="label">Aktuell · Berlin-Mitte</span><strong><em>Brunneneck</em> · Straßenansicht</strong></a></div>
+          <div class="cap-item"><a href="../lausitzer/index.html"><span class="label">Aktuell · Berlin-Kreuzberg</span><strong><em>Lausitzer Quartier</em> · Altbau</strong></a></div>
+          <div class="cap-item"><a href="../brunneneck/index.html"><span class="label">Aktuell · Berlin-Mitte</span><strong><em>Brunneneck</em> · Blick vom Dach</strong></a></div>
+          <div class="cap-item"><a href="#ref-loschmidt"><span class="label">2017 · Berlin-Charlottenburg</span><strong><em>Loschmidtstr. 16</em> · Neubau</strong></a></div>
         </div>
-        <div>
-          <div class="addr-label">Kontakt</div>
-          <div class="addr-val">
-            <a href="tel:+493020848200">030 / 20 84 80 200</a><br>
-            <a href="mailto:info@tiedemann-gruppe.de">info@tiedemann-gruppe.de</a>
+        <div class="ctrl">
+          <span class="count" aria-hidden="true"><b id="cnt">01</b> / 04</span>
+          <span class="progress" aria-hidden="true"><i id="prog"></i></span>
+          <div class="ctrl-btns">
+            <button type="button" id="prev" aria-label="Vorheriges Bild"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5"/></svg></button>
+            <button type="button" id="play" aria-label="Automatischen Wechsel anhalten"><svg class="icon-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h1.5v10H5zM9.5 3H11v10H9.5z" fill="currentColor"/></svg><svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3l8 5-8 5z" fill="currentColor"/></svg></button>
+            <button type="button" id="next" aria-label="Nächstes Bild"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg></button>
           </div>
         </div>
       </div>
@@ -628,64 +367,378 @@
   </div>
 </section>
 
-<!-- KONTAKT BAND -->
-<section id="kontakt">
-  <img class="kontakt-bg" src="Home _ Tie Gruppe_files/84df70_d4bb7d095dd146b08986e99c363a593e~mv2.jpg" alt="">
-  <div class="kontakt-inner">
-    <div class="kontakt-text fi">
-      <span class="label-overline--light" style="font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(179,187,193,.6);display:block;margin-bottom:var(--space-3)">Kontakt</span>
-      <h2>Interesse an einem <span style="font-weight:300">unserer Projekte?</span></h2>
-      <p>Nehmen Sie Kontakt auf – wir freuen uns auf Ihre Anfrage.</p>
+<!-- ===== Intro ===== -->
+<section class="section" id="unternehmen" aria-labelledby="u-title">
+  <div class="wrap intro-grid">
+    <div class="intro-head reveal">
+      <span class="label" style="margin-bottom:var(--s2)">Tiedemann Gruppe · Berlin</span>
+      <h2 class="display intro-statement" id="u-title">Immobilien mit Anspruch an <em>Qualität</em></h2>
     </div>
-    <div class="kontakt-actions fi d1">
-      <a href="mailto:info@tiedemann-gruppe.de" class="tie-btn tie-btn--accent">Exposé anfordern</a>
-      <a href="#projekte" class="tie-btn tie-btn--on-dark">Projekte ansehen</a>
+    <div class="intro-body reveal">
+      <p class="lead">Die Tiedemann Gruppe ist spezialisiert auf Planung, Neubau und Revitalisierung von Immobilien. Wir entwickeln und realisieren Immobilienprojekte mit einem besonderen Anspruch an Qualität.</p>
+      <p>Aus Innovationsgeist und Expertise entstehen pragmatische und moderne Lösungen für die Zukunft. In Berlin finden wir die tägliche Inspiration, um unsere Ideen gemeinsam mit unseren Kooperationspartnern umzusetzen.</p>
+      <dl class="figures">
+        <div><dt>Projekte</dt><dd><em>5</em> in Berlin</dd></div>
+        <div><dt>Aktuell</dt><dd><em>2</em> Projekte</dd></div>
+        <div><dt>Sitz</dt><dd>Berlin-<em>Mitte</em></dd></div>
+      </dl>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <a href="#start" class="footer-logo">
-      <img src="assets/logos/logo-weiss.svg" alt="Tiedemann">
-    </a>
-    <ul class="footer-links">
-      <li><a href="#projekte">Projekte</a></li>
-      <li><a href="#portfolio">Portfolio</a></li>
-      <li><a href="#ueber">Über uns</a></li>
-      <li><a href="#">Jobs</a></li>
-      <li><a href="#">Impressum</a></li>
-      <li><a href="#">Datenschutz</a></li>
-    </ul>
-    <div class="footer-social">
-      <a href="https://www.instagram.com/tiedemann_gruppe" target="_blank" rel="noopener" title="Instagram">
-        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-      </a>
-      <a href="https://www.linkedin.com/company/tiedemann-gruppe" target="_blank" rel="noopener" title="LinkedIn">
-        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      </a>
-      <a href="https://www.facebook.com/tiedemanngruppe" target="_blank" rel="noopener" title="Facebook">
-        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-      </a>
+<!-- ===== Aktuelle Projekte ===== -->
+<section class="section" id="projekte" aria-labelledby="p-title" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="label">Projekte</span>
+        <h2 class="h1" id="p-title">Aktuelle <em>Projekte</em></h2>
+      </div>
+      <p class="lead">Sanierung im Bestand, Ausbau unter dem Dach und Neubau im Hof: zwei Projekte in Berlin-Mitte und Berlin-Kreuzberg.</p>
     </div>
-    <div class="footer-copy">© 2026 Tiedemann Gruppe · Berlin</div>
+
+    <!-- Brunneneck -->
+    <article class="feature" aria-labelledby="bru-title">
+      <a class="feature-media reveal" href="../brunneneck/index.html" aria-label="Brunneneck – Projekt ansehen">
+        <img src="assets/projekte/brunneneck-strasse.jpg" width="2000" height="1239" loading="lazy" style="object-position:60% 50%" alt="Visualisierung des Brunnenecks an der Brunnenstraße, Ecke Rheinsberger Straße">
+        <span class="tag">Aktuell</span>
+      </a>
+      <div class="feature-text reveal">
+        <span class="label">Berlin-Mitte</span>
+        <h3 class="h1" id="bru-title"><em>Brunneneck</em></h3>
+        <p class="addr">Brunnenstraße / Rheinsberger Straße</p>
+        <p class="desc">Sanierung eines Bestandsaltbaus mit 31 Wohnungen und 3 Gewerbeeinheiten sowie Ausbau des Dachgeschosses mit 2 Penthouse-Wohnungen.</p>
+        <dl class="kv">
+          <div><dt>Bestand</dt><dd><em>31</em> Wohnungen, <em>3</em> Gewerbeeinheiten</dd></div>
+          <div><dt>Penthouses</dt><dd>ca. <em>110</em> und ca. <em>132</em> m², zusammengelegt <em>242</em> m²</dd></div>
+          <div><dt>Zustand</dt><dd>Rohbau, Ausbau nach Käuferwunsch</dd></div>
+        </dl>
+        <div class="links">
+          <a class="link" href="../brunneneck/index.html"><span>Projekt ansehen</span><svg class="arrow" viewBox="0 0 16 10" fill="none" aria-hidden="true"><path d="M11 1l4 4-4 4M1 5h14" stroke="currentColor" stroke-width="1.5"/></svg></a>
+          <a class="link" href="../brunneneck/wohnung-30.html"><span>WE 30 · 97 m²</span></a>
+          <a class="link" href="../brunneneck/wohnung-32.html"><span>WE 32 · 118 m²</span></a>
+        </div>
+      </div>
+      <ul class="gallery reveal" data-gallery="Brunneneck">
+        <li><button class="g-item" type="button" data-full="assets/projekte/brunneneck-rohbau-hero.jpg" data-cap="Brunneneck · Dachgeschoss im Rohbau"><img src="assets/projekte/brunneneck-rohbau-hero.jpg" width="1920" height="1280" loading="lazy" alt="Dachgeschoss im Rohbau mit Holzbalkendecke und Ziegelwänden"></button></li>
+        <li><button class="g-item" type="button" data-full="assets/projekte/brunneneck-ausblick-fernseh.jpg" data-cap="Brunneneck · Blick vom Dach zum Fernsehturm"><img src="assets/projekte/brunneneck-ausblick-fernseh.jpg" width="1920" height="1279" loading="lazy" style="object-position:65% 50%" alt="Blick über die Dächer zum Fernsehturm"></button></li>
+        <li><button class="g-item" type="button" data-full="assets/projekte/brunneneck-wohnzimmer1.jpg" data-cap="Brunneneck · Penthouse, Visualisierung"><img src="assets/projekte/brunneneck-wohnzimmer1.jpg" width="1200" height="675" loading="lazy" alt="Visualisierung eines Wohnbereichs mit Küchenblock und Holzlamellen unter dem Dach"></button></li>
+        <li><button class="g-item" type="button" data-full="assets/projekte/brunneneck-bestand-we32.jpg" data-cap="Brunneneck · Sanierte Altbauwohnung"><img src="assets/projekte/brunneneck-bestand-we32.jpg" width="1200" height="800" loading="lazy" alt="Sanierte, leere Altbauwohnung mit hohen Fenstern"></button></li>
+      </ul>
+    </article>
+
+    <!-- Lausitzer Quartier -->
+    <article class="feature feature--rev" aria-labelledby="lau-title">
+      <a class="feature-media reveal" href="../lausitzer/index.html" aria-label="Lausitzer Quartier – Projekt ansehen">
+        <img src="Home%20_%20Tie%20Gruppe_files/84df70_d4bb7d095dd146b08986e99c363a593e~mv2.jpg" width="1728" height="1333" loading="lazy" style="object-position:50% 60%" alt="Sanierte Altbauwohnung im Lausitzer Quartier mit Erkerfenster und hellem Parkett">
+        <span class="tag">Aktuell</span>
+      </a>
+      <div class="feature-text reveal">
+        <span class="label">Berlin-Kreuzberg</span>
+        <h3 class="h1" id="lau-title">Lausitzer <em>Quartier</em></h3>
+        <p class="addr">Lausitzer Straße 34</p>
+        <p class="desc">Sanierung eines denkmalgeschützten Gründerzeitaltbaus, Revitalisierung einer Fabrikremise und Neubau von Eigentumswohnungen.</p>
+        <dl class="kv">
+          <div><dt>Fabrik</dt><dd><em>5</em> Einheiten: 3 Townhouses mit 186–191 m², 2 Apartments mit 122–126 m²</dd></div>
+          <div><dt>Neubau</dt><dd>Klinkerbau mit <em>13</em> Wohnungen, Typen A–F, ca. 47–99 m²</dd></div>
+        </dl>
+        <div class="links">
+          <a class="link" href="../lausitzer/index.html"><span>Projekt ansehen</span><svg class="arrow" viewBox="0 0 16 10" fill="none" aria-hidden="true"><path d="M11 1l4 4-4 4M1 5h14" stroke="currentColor" stroke-width="1.5"/></svg></a>
+          <a class="link" href="../lausitzer/fabrik.html"><span>Fabrik</span></a>
+          <a class="link" href="../lausitzer/neubau.html"><span>Neubau</span></a>
+          <a class="link" href="https://www.lausitzerquartier.de/" rel="noopener"><span>lausitzerquartier.de</span></a>
+        </div>
+      </div>
+      <ul class="gallery gallery--3 reveal" data-gallery="Lausitzer Quartier">
+        <li><button class="g-item" type="button" data-full="assets/projekte/lausitzer-neubau.jpg" data-cap="Lausitzer Quartier · Neubau, Küche (Visualisierung)"><img src="assets/projekte/lausitzer-neubau.jpg" width="1300" height="2000" loading="lazy" style="object-position:50% 55%" alt="Visualisierung einer Küche im Neubau mit dunkler Front und raumhohen Fenstern"></button></li>
+        <li><button class="g-item" type="button" data-full="assets/projekte/lausitzer-quartier-1.jpg" data-cap="Lausitzer Quartier · Interior-Detail"><img src="assets/projekte/lausitzer-quartier-1.jpg" width="1333" height="2000" loading="lazy" style="object-position:50% 35%" alt="Runder Marmortisch mit Hocker auf hellem Holzboden"></button></li>
+        <li><button class="g-item" type="button" data-full="assets/projekte/lausitzer-quartier-2.jpg" data-cap="Lausitzer Quartier · Detail"><img src="assets/projekte/lausitzer-quartier-2.jpg" width="1333" height="2000" loading="lazy" style="object-position:50% 40%" alt="Holzblock im Streiflicht, Detailaufnahme"></button></li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<!-- ===== Band ===== -->
+<figure class="band reveal">
+  <img src="assets/projekte/brunneneck-rohbau-hero.jpg" width="1920" height="1280" loading="lazy" alt="Rohbau im Dachgeschoss des Brunnenecks: offene Holzbalkendecke, Ziegelwände und Fensteröffnungen">
+  <figcaption>Brunneneck · Dachgeschoss im Rohbau</figcaption>
+</figure>
+
+<!-- ===== Referenzen ===== -->
+<section class="section refs" id="referenzen" aria-labelledby="r-title">
+  <div class="wrap">
+    <div class="sec-head reveal" style="border-top-color:var(--blue-grey)">
+      <div>
+        <span class="label">Referenzen</span>
+        <h2 class="h1" id="r-title">Realisierte <em>Projekte</em></h2>
+      </div>
+      <p class="lead">Neubau, Aufstockung und Sanierung in Charlottenburg, Moabit und Schöneberg.</p>
+    </div>
+
+    <ul class="ref-grid" data-gallery="Referenzen">
+      <li class="ref reveal" id="ref-loschmidt">
+        <button class="g-item" type="button" data-full="assets/projekte/loschmidtstrasse-16.jpg" data-cap="Loschmidtstr. 16 · Berlin-Charlottenburg · 2017"><img src="assets/projekte/loschmidtstrasse-16.jpg" width="2000" height="2000" loading="lazy" style="object-position:55% 35%" alt="Neubau Loschmidtstraße 16 mit Balkonen, daneben Straßenbäume"></button>
+        <div class="ref-meta"><span class="label">Berlin-Charlottenburg</span><span class="label year">2017</span></div>
+        <h3 class="h2">Loschmidtstr. <em>16</em></h3>
+        <p>Neubauprojekt mit 20 Wohnungen und 2 Townhauswohnungen.</p>
+      </li>
+      <li class="ref reveal" id="ref-calvin">
+        <button class="g-item" type="button" data-full="assets/projekte/calvinstrasse-12.jpg" data-cap="Calvinstr. 12 · Berlin-Moabit · 2016 · © David Sonntag"><img src="assets/projekte/calvinstrasse-12.jpg" width="2000" height="1333" loading="lazy" alt="Weiße Fassade der Aufstockung Calvinstraße 12 mit bodentiefen Fenstern und Balkon"></button>
+        <div class="ref-meta"><span class="label">Berlin-Moabit</span><span class="label year">2016</span></div>
+        <h3 class="h2">Calvinstr. <em>12</em></h3>
+        <p>Zweigeschossige Aufstockung auf einem Bestandsgebäude aus den 1960er-Jahren inklusive Sanierung.</p>
+        <span class="credit">Foto © David Sonntag</span>
+      </li>
+      <li class="ref reveal" id="ref-goltz">
+        <button class="g-item" type="button" data-full="assets/projekte/goltzstrasse-40b.jpg" data-cap="Goltzstr. 40b · Berlin-Schöneberg · 2012"><img src="assets/projekte/goltzstrasse-40b.jpg" width="850" height="638" loading="lazy" alt="Dachgarten mit Rasen, Liege und verglastem Dachaufbau in der Goltzstraße 40b"></button>
+        <div class="ref-meta"><span class="label">Berlin-Schöneberg</span><span class="label year">2012</span></div>
+        <h3 class="h2">Goltzstr. <em>40b</em></h3>
+        <p>Neubau von 6 großzügigen Eigentumswohnungen.</p>
+      </li>
+    </ul>
+
+    <div class="index reveal">
+      <h3 class="h2">Alle <em>Projekte</em></h3>
+      <table class="index-table">
+        <caption class="sr-only">Übersicht aller Projekte der Tiedemann Gruppe</caption>
+        <thead><tr><th scope="col">Jahr</th><th scope="col">Projekt</th><th scope="col">Ortsteil</th><th scope="col" class="hide-s">Leistung</th></tr></thead>
+        <tbody>
+          <tr><td class="yr now">Aktuell</td><th scope="row"><a href="../brunneneck/index.html">Brunneneck</a></th><td>Mitte</td><td class="sm hide-s">Sanierung, Dachgeschossausbau</td></tr>
+          <tr><td class="yr now">Aktuell</td><th scope="row"><a href="../lausitzer/index.html">Lausitzer Quartier</a></th><td>Kreuzberg</td><td class="sm hide-s">Sanierung, Revitalisierung, Neubau</td></tr>
+          <tr><td class="yr">2017</td><th scope="row"><a href="#ref-loschmidt">Loschmidtstr. 16</a></th><td>Charlottenburg</td><td class="sm hide-s">Neubau</td></tr>
+          <tr><td class="yr">2016</td><th scope="row"><a href="#ref-calvin">Calvinstr. 12</a></th><td>Moabit</td><td class="sm hide-s">Aufstockung, Sanierung</td></tr>
+          <tr><td class="yr">2012</td><th scope="row"><a href="#ref-goltz">Goltzstr. 40b</a></th><td>Schöneberg</td><td class="sm hide-s">Neubau</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Über uns ===== -->
+<section class="section" id="ueber-uns" aria-labelledby="a-title">
+  <div class="wrap about-grid">
+    <figure class="about-fig reveal">
+      <img src="assets/projekte/brunneneck-terrasse.jpg" width="1163" height="1600" loading="lazy" alt="Visualisierung einer begrünten Dachterrasse mit Sitzgruppe und Rundteppich">
+      <figcaption>Brunneneck · Dachterrasse, Visualisierung</figcaption>
+    </figure>
+    <div class="about-text">
+      <div class="reveal">
+        <span class="label">Über uns</span>
+        <h2 class="h1" id="a-title">Ein Familienunternehmen mit <em>Tradition</em></h2>
+      </div>
+      <div class="pillars">
+        <article class="pillar reveal">
+          <span class="num">01</span>
+          <h3 class="h2">Was wir <em>tun</em></h3>
+          <p>Unser Basisgeschäft ist das Initiieren und Entwickeln von Neubauprojekten. Mit eigenen Ansätzen in Akquisition, Planung, Finanzierung und Controlling werden Ideen und Konzepte unter guten Bedingungen realisiert. Wir schaffen Fortschritt im gebauten Raum und authentische Lebensräume.</p>
+        </article>
+        <article class="pillar reveal">
+          <span class="num">02</span>
+          <h3 class="h2">Unser <em>Fokus</em></h3>
+          <p>Für Immobilienprojekte mit moderner Lebensqualität im urbanen Raum begleiten, steuern und koordinieren wir den gesamten Design- und Bauprozess – einschließlich rechtlicher Grundlagen, Verträgen und Transparenz. Wir pflegen Partnerschaften zur Bau- und Finanzbranche und stellen für jedes Projekt das passende Team zusammen.</p>
+        </article>
+        <article class="pillar reveal">
+          <span class="num">03</span>
+          <h3 class="h2">Tradition und <em>Zeitgeist</em></h3>
+          <p>Als Kaufmannsfamilie mit Ursprung in Norddeutschland gründen unsere Prinzipien auf einem Verständnis für Wirtschaftlichkeit, Verbindlichkeit und Qualität, das über Generationen weitergegeben wurde. Pragmatismus und Ehrlichkeit machen uns zu einem flexiblen und verlässlichen Partner.</p>
+        </article>
+        <article class="pillar reveal">
+          <span class="num">04</span>
+          <h3 class="h2">Die Zukunft als <em>Maßstab</em></h3>
+          <p>Heute sind wir als Immobilienentwickler mit Fokus auf den Neubau von Wohn- und Gewerbebauten in Berlin verwurzelt. Dem Wandel des Immobilienmarktes und komplexen Prozessen begegnen wir mit Konstanz – weltoffen, loyal und verantwortungsbewusst.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Kontakt ===== -->
+<section class="section contact" id="kontakt" aria-labelledby="k-title">
+  <div class="wrap contact-grid">
+    <div class="contact-head reveal">
+      <span class="label">Kontakt</span>
+      <h2 class="h1" id="k-title">Sprechen Sie <em>mit uns</em></h2>
+      <p class="lead">Zu unseren Projekten, zu verfügbaren Einheiten oder zu einer Zusammenarbeit: Wir freuen uns auf Ihre Nachricht.</p>
+      <a class="btn btn--accent" href="mailto:info@tiedemann-gruppe.de">E-Mail schreiben <svg class="arrow" viewBox="0 0 16 10" fill="none" aria-hidden="true"><path d="M11 1l4 4-4 4M1 5h14" stroke="currentColor" stroke-width="1.5"/></svg></a>
+    </div>
+    <dl class="contact-list reveal">
+      <div><dt>Büro</dt><dd><address>Tiedemann Gruppe<br>Große Hamburger Str. 32<br>10115 Berlin</address></dd></div>
+      <div><dt>Allgemein</dt><dd><a href="tel:+493020848200">030 / 20 84 80 200</a><a href="mailto:info@tiedemann-gruppe.de">info@tiedemann-gruppe.de</a></dd></div>
+      <div><dt>Vertrieb</dt><dd><a href="tel:+4930208480216">030 / 20 84 80 216</a><a href="mailto:kontakt@tiedemann-gruppe.de">kontakt@tiedemann-gruppe.de</a></dd></div>
+      <div><dt>Karriere</dt><dd><a href="https://www.tiedemann-gruppe.de/jobs">Offene Stellen</a></dd></div>
+    </dl>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a class="footer-logo" href="#start" aria-label="Tiedemann Gruppe, zum Seitenanfang"><img src="assets/logos/logo-weiss.svg" alt="Tiedemann Gruppe" width="96" height="108"></a>
+        <p class="footer-claim">Planung, Neubau und Revitalisierung von Immobilien in Berlin.</p>
+      </div>
+      <nav aria-label="Seiten">
+        <h2>Seiten</h2>
+        <ul>
+          <li><a href="#projekte">Projekte</a></li>
+          <li><a href="#referenzen">Referenzen</a></li>
+          <li><a href="#ueber-uns">Über uns</a></li>
+          <li><a href="https://www.tiedemann-gruppe.de/jobs">Jobs</a></li>
+        </ul>
+      </nav>
+      <div>
+        <h2>Kontakt</h2>
+        <address>Große Hamburger Str. 32<br>10115 Berlin<br><a href="tel:+493020848200">030 / 20 84 80 200</a><br><a href="mailto:info@tiedemann-gruppe.de">info@tiedemann-gruppe.de</a></address>
+      </div>
+      <div>
+        <h2>Folgen</h2>
+        <div class="social">
+          <a href="https://www.instagram.com/tiedemann_gruppe/" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+          <a href="https://www.linkedin.com/company/tiedemann-gruppe/" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+          <a href="https://www.facebook.com/tiedemanngruppe" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Tiedemann Gruppe · Berlin</span>
+      <a href="https://www.tiedemann-gruppe.de/impressum">Impressum und Datenschutz</a>
+    </div>
   </div>
 </footer>
 
-<script>
-  const header = document.getElementById('siteHeader');
-  function updateHeader() {
-    const atTop = window.scrollY < 60;
-    header.classList.toggle('on-dark', atTop);
-  }
-  window.addEventListener('scroll', updateHeader, { passive: true });
-  updateHeader();
+<dialog class="lb" id="lb" aria-label="Bildansicht">
+  <div class="lb-top">
+    <span class="lb-count" id="lb-count"></span>
+    <button type="button" id="lb-close" aria-label="Bildansicht schließen"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5"/></svg></button>
+  </div>
+  <div class="lb-stage"><img id="lb-img" alt=""></div>
+  <div class="lb-bottom">
+    <p class="lb-cap" id="lb-cap"></p>
+    <div class="lb-btns">
+      <button type="button" id="lb-prev" aria-label="Vorheriges Bild"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5"/></svg></button>
+      <button type="button" id="lb-next" aria-label="Nächstes Bild"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg></button>
+    </div>
+  </div>
+</dialog>
 
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: .08 });
-  document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+<script>
+(function(){
+  var doc = document.documentElement;
+  doc.classList.add('js');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ----- Header ----- */
+  var hdr = document.getElementById('hdr'), btn = hdr.querySelector('.menu-btn'), nav = document.getElementById('nav');
+  var brand = hdr.querySelector('.brand-text');
+  function onScroll(){
+    var solid = window.scrollY > 80;
+    hdr.classList.toggle('solid', solid);
+    brand.tabIndex = solid ? 0 : -1;
+    brand.setAttribute('aria-hidden', solid ? 'false' : 'true');
+  }
+  window.addEventListener('scroll', onScroll, { passive:true }); onScroll();
+  function setMenu(open){
+    btn.setAttribute('aria-expanded', open);
+    btn.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+    hdr.classList.toggle('menu-open', open);
+    document.body.classList.toggle('no-scroll', open);
+  }
+  btn.addEventListener('click', function(){ setMenu(btn.getAttribute('aria-expanded') !== 'true'); });
+  nav.addEventListener('click', function(e){ if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && hdr.classList.contains('menu-open')) { setMenu(false); btn.focus(); } });
+
+  /* ----- Hero slider ----- */
+  var hero = document.getElementById('start');
+  var slides = hero.querySelectorAll('.slide'), caps = hero.querySelectorAll('.cap-item');
+  var cnt = document.getElementById('cnt'), prog = document.getElementById('prog'), playBtn = document.getElementById('play');
+  var DUR = 6000, idx = 0, elapsed = 0, last = null;
+  var userPaused = reduce, hoverPaused = false, focusPaused = false;
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+  function show(i){
+    idx = (i + slides.length) % slides.length;
+    for (var k = 0; k < slides.length; k++){
+      var on = k === idx;
+      slides[k].classList.toggle('is-active', on);
+      slides[k].setAttribute('aria-hidden', on ? 'false' : 'true');
+      caps[k].classList.toggle('is-active', on);
+      caps[k].querySelector('a').tabIndex = on ? 0 : -1;
+    }
+    cnt.textContent = pad(idx + 1);
+    elapsed = 0; prog.style.transform = 'scaleX(0)';
+  }
+  function paused(){ return userPaused || hoverPaused || focusPaused || document.hidden; }
+  function tick(t){
+    if (last !== null && !paused()){
+      elapsed += t - last;
+      if (elapsed >= DUR) show(idx + 1);
+      prog.style.transform = 'scaleX(' + Math.min(elapsed / DUR, 1) + ')';
+    }
+    last = t;
+    requestAnimationFrame(tick);
+  }
+  function setUserPaused(p){
+    userPaused = p;
+    hero.classList.toggle('is-paused', p);
+    playBtn.setAttribute('aria-label', p ? 'Automatischen Wechsel starten' : 'Automatischen Wechsel anhalten');
+  }
+  document.getElementById('prev').addEventListener('click', function(){ show(idx - 1); });
+  document.getElementById('next').addEventListener('click', function(){ show(idx + 1); });
+  playBtn.addEventListener('click', function(){ setUserPaused(!userPaused); });
+  hero.addEventListener('mouseenter', function(){ hoverPaused = true; });
+  hero.addEventListener('mouseleave', function(){ hoverPaused = false; });
+  hero.addEventListener('focusin', function(){ focusPaused = true; });
+  hero.addEventListener('focusout', function(e){ if (!hero.contains(e.relatedTarget)) focusPaused = false; });
+  hero.addEventListener('keydown', function(e){
+    if (e.target.closest('.nav')) return;
+    if (e.key === 'ArrowLeft'){ show(idx - 1); } else if (e.key === 'ArrowRight'){ show(idx + 1); }
+  });
+  var sx = null;
+  hero.addEventListener('touchstart', function(e){ sx = e.touches[0].clientX; }, { passive:true });
+  hero.addEventListener('touchend', function(e){ if (sx === null) return; var dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) show(idx + (dx < 0 ? 1 : -1)); sx = null; });
+  setUserPaused(reduce);
+  show(0);
+  requestAnimationFrame(tick);
+
+  /* ----- Lightbox ----- */
+  var lb = document.getElementById('lb'), lbImg = document.getElementById('lb-img'), lbCap = document.getElementById('lb-cap'), lbCount = document.getElementById('lb-count');
+  var group = [], gi = 0, opener = null;
+  function render(){
+    var b = group[gi], im = b.querySelector('img');
+    lbImg.src = b.getAttribute('data-full'); lbImg.alt = im.alt;
+    lbCap.textContent = b.getAttribute('data-cap') || '';
+    lbCount.textContent = pad(gi + 1) + ' / ' + pad(group.length);
+  }
+  function step(d){ gi = (gi + d + group.length) % group.length; render(); }
+  Array.prototype.forEach.call(document.querySelectorAll('.g-item'), function(b){
+    b.setAttribute('aria-label', 'Bild vergrößern: ' + (b.getAttribute('data-cap') || b.querySelector('img').alt));
+    b.addEventListener('click', function(){
+      var g = b.closest('[data-gallery]');
+      group = Array.prototype.slice.call(g.querySelectorAll('.g-item'));
+      gi = group.indexOf(b); opener = b; render();
+      if (typeof lb.showModal === 'function'){ lb.showModal(); document.body.classList.add('no-scroll'); }
+      else { window.open(b.getAttribute('data-full'), '_blank'); }
+    });
+  });
+  document.getElementById('lb-prev').addEventListener('click', function(){ step(-1); });
+  document.getElementById('lb-next').addEventListener('click', function(){ step(1); });
+  document.getElementById('lb-close').addEventListener('click', function(){ lb.close(); });
+  lb.addEventListener('keydown', function(e){ if (e.key === 'ArrowLeft') step(-1); else if (e.key === 'ArrowRight') step(1); });
+  lb.addEventListener('close', function(){ document.body.classList.remove('no-scroll'); if (opener) opener.focus(); });
+  lb.addEventListener('click', function(e){ if (e.target === lb || e.target.classList.contains('lb-stage')) lb.close(); });
+
+  /* ----- Reveal ----- */
+  var items = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || reduce){
+    Array.prototype.forEach.call(items, function(el){ el.classList.add('is-in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); } });
+  }, { threshold:0.1, rootMargin:'0px 0px -40px 0px' });
+  Array.prototype.forEach.call(items, function(el){ io.observe(el); });
+})();
 </script>
 </body>
 </html>

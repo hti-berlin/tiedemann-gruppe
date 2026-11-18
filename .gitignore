@@ -4,3 +4,4 @@ Home _ Tie Gruppe_files/*.png
 # keep the actual images (jpg + logo png)
 !Home _ Tie Gruppe_files/84df70_*.jpg
 !Home _ Tie Gruppe_files/84df70_*.png
+.claude/
