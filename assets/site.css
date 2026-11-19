@@ -400,7 +400,10 @@ a.hero-note:hover strong{ text-decoration:underline; text-decoration-thickness:1
 @media (min-width:768px){ .init-grid{ grid-template-columns:repeat(3,1fr); } }
 .init .media{ overflow:hidden; background:var(--grey); }
 .init .media img{ width:100%; aspect-ratio:4/3; object-fit:cover; }
-.init-text{ margin-top:var(--s2); padding-top:var(--s2); border-top:1px solid var(--blue-grey); }
+.init{ display:flex; flex-direction:column; background:var(--subtle); padding:var(--s4) var(--s3); }
+@media (min-width:768px){ .init{ padding:var(--s5) var(--s4) var(--s4); } }
+.init-text{ display:flex; flex-direction:column; flex:1; }
+.init-text .link{ margin-top:auto; padding-top:var(--s3); }
 .init-text .label{ margin-bottom:var(--s1); color:var(--muted); }
 .init-text .h2{ margin-bottom:var(--s1); }
 
