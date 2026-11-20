@@ -5,8 +5,9 @@ Options -Indexes
 <IfModule mod_rewrite.c>
 RewriteEngine On
 
-# Immer HTTPS
+# Immer HTTPS (nur für tiedemann-gruppe.de; die Testadresse neu.tiedemann.co hat kein Zertifikat)
 RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP_HOST} tiedemann-gruppe\.de$ [NC]
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Ohne www -> mit www (Testadresse test.tiedemann-gruppe.de bleibt unberührt)
