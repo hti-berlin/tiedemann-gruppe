@@ -1,0 +1,87 @@
+name: Deploy zu IONOS (SFTP)
+
+# Lädt die Website in den IONOS-Webspace.
+# Läuft bei jedem Push auf main und lässt sich unter „Actions“ manuell starten.
+# Solange die Secrets fehlen, wird der Upload übersprungen (kein Fehler).
+# Benötigte Repository-Secrets (Settings → Secrets and variables → Actions):
+#   IONOS_SFTP_HOST      z. B. access792848321.webspace-data.io
+#   IONOS_SFTP_USER      SFTP-Benutzer, der nur auf den Website-Ordner zugreifen darf
+#   IONOS_SFTP_PASSWORD  Passwort dieses Benutzers
+#   IONOS_REMOTE_DIR     Zielordner; bei einem auf den Ordner beschränkten Benutzer: /
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-ionos
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Secrets prüfen
+        id: check
+        env:
+          HOST: ${{ secrets.IONOS_SFTP_HOST }}
+          USER: ${{ secrets.IONOS_SFTP_USER }}
+          PASS: ${{ secrets.IONOS_SFTP_PASSWORD }}
+        run: |
+          if [ -n "$HOST" ] && [ -n "$USER" ] && [ -n "$PASS" ]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::IONOS-Secrets fehlen noch – Upload übersprungen."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.check.outputs.ok == 'true'
+
+      - name: Website zusammenstellen
+        if: steps.check.outputs.ok == 'true'
+        run: |
+          python3 - <<'PY'
+          import os, re, shutil, urllib.parse
+          dist = 'dist'
+          shutil.rmtree(dist, ignore_errors=True)
+          os.makedirs(dist)
+          skip = {'Home _ Tie Gruppe.html'}
+          pages = [f for f in os.listdir('.') if f.endswith(('.html', '.php')) and f not in skip]
+          files = set(pages) | {f for f in ['.htaccess', 'robots.txt', 'sitemap.xml', 'favicon.ico', 'apple-touch-icon.png', 'assets/icons/icon-512.png'] if os.path.isfile(f)}
+          live = ('https://www.tiedemann-gruppe.de/', 'https://tiedemann-gruppe.de/')
+          for p in pages:
+              text = open(p, encoding='utf-8').read()
+              for ref in re.findall(r'(?:src|href|content|data-full)="([^"#?]+)', text):
+                  ref = urllib.parse.unquote(ref)
+                  for base in live:
+                      if ref.startswith(base):
+                          ref = ref[len(base):] or 'index.html'
+                          break
+                  if ref.startswith(('http', 'mailto:', 'tel:', '/', 'data:')):
+                      continue
+                  path = os.path.normpath(ref)
+                  if os.path.isfile(path):
+                      files.add(path)
+          for f in sorted(files):
+              target = os.path.join(dist, f)
+              os.makedirs(os.path.dirname(target) or dist, exist_ok=True)
+              shutil.copy2(f, target)
+          print(f'{len(files)} Dateien zusammengestellt')
+          PY
+
+      - name: lftp installieren
+        if: steps.check.outputs.ok == 'true'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: Per SFTP hochladen
+        if: steps.check.outputs.ok == 'true'
+        env:
+          HOST: ${{ secrets.IONOS_SFTP_HOST }}
+          USER: ${{ secrets.IONOS_SFTP_USER }}
+          PASS: ${{ secrets.IONOS_SFTP_PASSWORD }}
+          REMOTE: ${{ secrets.IONOS_REMOTE_DIR }}
+        run: |
+          REMOTE="${REMOTE:-/}"
+          lftp -e "set sftp:auto-confirm yes; set net:max-retries 2; open -u \"$USER\",\"$PASS\" sftp://$HOST; mkdir -p -f \"$REMOTE\"; mirror -R --verbose --parallel=4 dist \"$REMOTE\"; quit"

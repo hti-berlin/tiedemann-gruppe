@@ -1,0 +1,39 @@
+# Tiedemann Gruppe · IONOS Webhosting
+DirectoryIndex index.html index.php
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Immer HTTPS
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Ohne www -> mit www (Testadresse test.tiedemann-gruppe.de bleibt unberührt)
+RewriteCond %{HTTP_HOST} ^tiedemann-gruppe\.de$ [NC]
+RewriteRule ^ https://www.tiedemann-gruppe.de%{REQUEST_URI} [L,R=301]
+
+# Alte Adressen der Wix-Seite
+RewriteRule ^impressum/?$ /impressum.html [L,R=301]
+RewriteRule ^datenschutz/?$ /impressum.html#datenschutz [L,R=301,NE]
+RewriteRule ^jobs/?$ /jobs.html [L,R=301]
+RewriteRule ^about-3/?$ /#ueber-uns [L,R=301,NE]
+RewriteRule ^projects-6/?$ /#referenzen [L,R=301,NE]
+RewriteRule ^projects-7/?$ /#referenzen [L,R=301,NE]
+RewriteRule ^(team|kontakt|contact)/?$ /#kontakt [L,R=301,NE]
+
+# Gespeicherte alte Seite und interne Ordner nicht ausliefern
+RewriteRule ^Home(%20|\ )_ - [F]
+RewriteRule ^(\.git|\.github|_uebergabe)(/|$) - [F]
+</IfModule>
+
+<IfModule mod_headers.c>
+Header always set X-Content-Type-Options "nosniff"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+<FilesMatch "\.(jpg|jpeg|png|svg|ico|webp)$">
+Header set Cache-Control "public, max-age=2592000"
+</FilesMatch>
+<FilesMatch "\.(css|js)$">
+Header set Cache-Control "public, max-age=604800"
+</FilesMatch>
+</IfModule>
