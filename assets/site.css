@@ -249,9 +249,9 @@ p + p{ margin-top:var(--s2); }
 .footer li a,.footer address a{ display:inline-flex; align-items:center; min-height:var(--ctl); }
 .footer address{ line-height:1.6; }
 .social{ display:flex; gap:var(--s1); }
-.social a{ width:var(--ctl); height:var(--ctl); justify-content:center; border:1px solid rgba(255,255,255,.2); }
-.social a:hover{ border-color:var(--white); }
-.social svg{ width:16px; height:16px; fill:currentColor; }
+.social a{ display:inline-flex; align-items:center; justify-content:center; width:var(--ctl); height:var(--ctl); color:var(--white); border:1px solid rgba(255,255,255,.3); transition:border-color .2s, background-color .2s; }
+.social a:hover{ border-color:var(--white); background:rgba(255,255,255,.08); }
+.social svg{ width:18px; height:18px; fill:currentColor; }
 .footer-bottom{ margin-top:var(--s6); padding-top:var(--s3); border-top:1px solid rgba(255,255,255,.14); display:flex; flex-wrap:wrap; justify-content:space-between; gap:var(--s2); align-items:center; }
 
 /* ===== Lightbox ===== */

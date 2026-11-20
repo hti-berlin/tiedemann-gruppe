@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /team.html
+Disallow: /Home%20_%20Tie%20Gruppe.html
+Disallow: /Home%20_%20Tie%20Gruppe_files/
+
+Sitemap: https://www.tiedemann-gruppe.de/sitemap.xml
